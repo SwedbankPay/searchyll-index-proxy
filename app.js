@@ -7,6 +7,7 @@ var compression = require('compression')
 var helmet = require('helmet')
 
 var indexRouter = require('./routes/index.js')
+var proxyRouter = require('./routes/proxy')
 
 var app = express();
 var __dirname = path.resolve();
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter.indexRouter);
+app.use('*', proxyRouter.proxyRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
