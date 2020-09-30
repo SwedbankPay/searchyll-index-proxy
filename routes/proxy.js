@@ -4,8 +4,7 @@ var asyncHandler = require('express-async-handler');
 const http = require('http');
 
 const apiKey = process.env.apiKey || "super-secret-key";
-const elasticUrl = process.env.elasticHost || 'http://localhost'
-const elasticPort = process.env.elasticPort || '9200'
+const elasticUrl = process.env.elasticHost || 'http://localhost:9200'
 
 router.all('*', asyncHandler(async (oreq, ores, next) => {
   console.log("Got a request")
@@ -18,10 +17,11 @@ router.all('*', asyncHandler(async (oreq, ores, next) => {
 
   let options = {
     host: elasticUrl,
-    port: elasticPort,
     path: oreq.path,
-    method: oreq.method
+    method: oreq.method,
+    setHost: false
   }
+
   if (oreq.body != null)
     options.body = oreq.body;
 
@@ -50,12 +50,15 @@ router.all('*', asyncHandler(async (oreq, ores, next) => {
     })
     .on('error', e => {
       // we got an error
+      console.log("Got an error")
       console.log(e.message);
       try {
         // attempt to set error message and http status
         ores.writeHead(500);
         ores.write(e.message);
       } catch (e) {
+        console.log("Error writing to head")
+        console.log(e.message)
         // ignore
       }
       ores.end();
