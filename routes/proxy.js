@@ -4,7 +4,7 @@ var asyncHandler = require('express-async-handler');
 const http = require('http');
 
 const apiKey = process.env.apiKey || "super-secret-key";
-const elasticUrl = process.env.elasticHost || 'http://localhost:9200'
+const elasticUrl = process.env.elasticHost || 'http://localhost:5601'
 
 router.all('*', asyncHandler(async (oreq, ores, next) => {
   console.log("Got a request")
@@ -19,7 +19,9 @@ router.all('*', asyncHandler(async (oreq, ores, next) => {
     host: elasticUrl,
     path: oreq.path,
     method: oreq.method,
-    setHost: false
+    setHost: false,
+    family: 4,
+    port: 80
   }
 
   if (oreq.body != null)
@@ -34,7 +36,7 @@ router.all('*', asyncHandler(async (oreq, ores, next) => {
       ores.writeHead(pres.statusCode);
 
       // wait for data
-      pres.on('data', chunk => {
+      pres.on('data', (chunk) => {
         ores.write(chunk);
       });
 
@@ -65,6 +67,7 @@ router.all('*', asyncHandler(async (oreq, ores, next) => {
     });
 
   creq.end();
+  next();
 }));
 
 
