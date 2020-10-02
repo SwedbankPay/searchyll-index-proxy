@@ -7,17 +7,9 @@ var compression = require('compression')
 var helmet = require('helmet')
 var proxy = require('express-http-proxy');
 
-var indexRouter = require('./routes/index.js')
-var proxyRouter = require('./routes/proxy')
-
 var app = express();
-var __dirname = path.resolve();
 
 let port = process.env.PORT || 3001;
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 app.use(helmet());
 app.use(compression())
@@ -27,23 +19,21 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-//app.use('*', proxyRouter.proxyRouter)
-
 
 const apiKey = process.env.apiKey || "super-secret-key";
-const elasticUrl = process.env.elasticHost || 'localhsot:9200'
-
+const elasticUrl = process.env.elasticHost || 'localhost:9200'
 
 app.use(proxy(elasticUrl, {
+  limit: '100mb',
+  parseReqBody: false,
   filter: function (req, res) {
-    console.log("Got a request")
     const authHeader = req.get('Authorization');
 
-    if (authHeader == null || authHeader !== apiKey /* && req.app.get('env') !== 'development' */) {
+    if (authHeader == null || authHeader !== apiKey) {
+      console.log("Got a authenticated request");
       return false;
     }
+    console.log("Not authenticated");
     return true;
   }
 }));
