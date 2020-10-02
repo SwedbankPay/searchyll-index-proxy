@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser')
 var morgan = require('morgan')
 var compression = require('compression')
 var helmet = require('helmet')
+var proxy = require('express-http-proxy');
 
 var indexRouter = require('./routes/index.js')
 var proxyRouter = require('./routes/proxy')
@@ -12,7 +13,7 @@ var proxyRouter = require('./routes/proxy')
 var app = express();
 var __dirname = path.resolve();
 
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 3001;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,8 +29,24 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter.indexRouter);
-app.use('*', proxyRouter.proxyRouter)
+//app.use('*', proxyRouter.proxyRouter)
+
+
+const apiKey = process.env.apiKey || "super-secret-key";
+const elasticUrl = process.env.elasticHost || 'localhsot:9200'
+
+
+app.use(proxy(elasticUrl, {
+  filter: function (req, res) {
+    console.log("Got a request")
+    const authHeader = req.get('Authorization');
+
+    if (authHeader == null || authHeader !== apiKey /* && req.app.get('env') !== 'development' */) {
+      return false;
+    }
+    return true;
+  }
+}));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -4,9 +4,10 @@ var asyncHandler = require('express-async-handler');
 const http = require('http');
 
 const apiKey = process.env.apiKey || "super-secret-key";
-const elasticUrl = process.env.elasticHost || 'http://localhost:5601'
+const elasticUrl = process.env.elasticHost || 'duckduckgo.com'
 
-router.all('*', asyncHandler(async (oreq, ores, next) => {
+
+router.all('not_in_use_atm', asyncHandler(async (oreq, ores, next) => {
   console.log("Got a request")
   const authHeader = oreq.get('Authorization');
 
@@ -16,12 +17,10 @@ router.all('*', asyncHandler(async (oreq, ores, next) => {
   }
 
   let options = {
-    host: elasticUrl,
+    hostname: elasticUrl,
     path: oreq.path,
     method: oreq.method,
-    setHost: false,
-    family: 4,
-    port: 80
+    family: 4
   }
 
   if (oreq.body != null)
@@ -69,6 +68,5 @@ router.all('*', asyncHandler(async (oreq, ores, next) => {
   creq.end();
   next();
 }));
-
 
 exports.proxyRouter = router;
