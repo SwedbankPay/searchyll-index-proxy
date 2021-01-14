@@ -23,17 +23,17 @@ app.use(cookieParser());
 const apiKey = process.env.apiKey || "super-secret-key";
 const elasticUrl = process.env.elasticHost || 'localhost:9200'
 
-app.use(proxy(elasticUrl, {
+app.use('/', proxy(elasticUrl, {
   limit: '100mb',
   parseReqBody: false,
   filter: function (req, res) {
     const authHeader = req.get('Authorization');
 
     if (authHeader == null || authHeader !== apiKey) {
-      console.log("Got a authenticated request");
+      console.log("Got a not authenticated request");
       return false;
     }
-    console.log("Not authenticated");
+    console.log("Request authenticated");
     return true;
   }
 }));
@@ -55,7 +55,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send(err.status);
 });
 
 app.listen(port)
