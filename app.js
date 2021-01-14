@@ -6,7 +6,6 @@ var morgan = require('morgan')
 var compression = require('compression')
 var helmet = require('helmet')
 var proxy = require('express-http-proxy');
-var debug = require('debug')('elk-node-search-proxy:server');
 var process = require('process'); 
 
 var app = express();
@@ -32,16 +31,16 @@ app.use('/', proxy(elasticUrl, {
     const authHeader = req.get('Authorization');
 
     if (authHeader == null || authHeader !== apiKey) {
-      debug("Got a not authenticated request");
+      console.log("Got a not authenticated request");
       return false;
     }
-    debug("Request authenticated");
+    console.log("Request authenticated");
     return true;
   }
 }));
 
 app.use('/probe',function (req, res) {
-  debug("Got a probe");
+  console.log("Got a probe");
   res.send('Hello World!');
 });
 
@@ -52,9 +51,9 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-  debug(err);
-  debug(elasticUrl);
-  debug(process.env);
+  console.error(err);
+  console.log(elasticUrl);
+  console.warn(process.env);
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

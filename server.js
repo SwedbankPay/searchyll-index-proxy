@@ -5,7 +5,6 @@
  */
 
 var app = require('./app');
-var debug = require('debug')('elk-node-search-proxy:server');
 var http = require('http');
 
 /**
@@ -79,5 +78,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.log('Listening on ' + bind);
 }
