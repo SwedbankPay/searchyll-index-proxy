@@ -39,7 +39,8 @@ app.use('/', proxy(elasticUrl, {
 }));
 
 app.use('/probe',function (req, res) {
-  res.send('Hello World!')
+  console.log("Got a probe");
+  res.send('Hello World!');
 });
 
 // catch 404 and forward to error handler
