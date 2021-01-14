@@ -23,7 +23,7 @@ app.use(cookieParser());
 const apiKey = process.env.apiKey || "super-secret-key";
 const elasticUrl = process.env.elasticHost || 'localhost:9200'
 
-let appInsights = require('applicationinsights');
+let appInsights = require("applicationinsights-express-middleware");
 appInsights.setup().start();
 
 app.use(proxy(elasticUrl, {
