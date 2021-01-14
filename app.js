@@ -40,8 +40,6 @@ app.use('/', proxy(elasticUrl, {
 }));
 
 app.use('/probe',function (req, res) {
-  console.log("Got a probe");
-  console.log(process.env);
   res.send('Hello World!');
 });
 
@@ -53,8 +51,6 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   console.error(err);
-  console.log(elasticUrl);
-  console.warn(process.env);
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
