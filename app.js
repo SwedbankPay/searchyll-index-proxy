@@ -7,6 +7,7 @@ var compression = require('compression')
 var helmet = require('helmet')
 var proxy = require('express-http-proxy');
 var debug = require('debug')('elk-node-search-proxy:server');
+var process = require('process'); 
 
 var app = express();
 
