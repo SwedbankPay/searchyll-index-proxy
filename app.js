@@ -42,7 +42,7 @@ app.use('/', proxy(elasticUrl, {
   },
   userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
     // recieves an Object of headers, returns an Object of headers.
-    headers['Authorization'] = elasticHost;
+    headers['Authorization'] = elasticAuth;
     return headers;
   }
 }));
