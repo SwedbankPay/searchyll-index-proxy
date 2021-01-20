@@ -36,6 +36,10 @@ app.use('/', proxy(elasticUrl, {
     }
     console.log("Request authenticated");
     return true;
+  },
+  proxyReqOptDecorator: function(proxyReqOpts, originalReq) {
+    proxyReqOpts.rejectUnauthorized = false
+    return proxyReqOpts;
   }
 }));
 
