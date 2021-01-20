@@ -31,10 +31,8 @@ app.use('/', proxy(elasticUrl, {
     const authHeader = req.get('Authorization');
 
     if (authHeader == null || authHeader !== apiKey) {
-      console.log("Got a not authenticated request");
       return false;
     }
-    console.log("Request authenticated");
     return true;
   },
   proxyReqOptDecorator: function(proxyReqOpts, originalReq) {
