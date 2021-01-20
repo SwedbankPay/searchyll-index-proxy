@@ -38,6 +38,11 @@ app.use('/', proxy(elasticUrl, {
   proxyReqOptDecorator: function(proxyReqOpts, originalReq) {
     proxyReqOpts.rejectUnauthorized = false
     return proxyReqOpts;
+  },
+  userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
+    // recieves an Object of headers, returns an Object of headers.
+    headers['Authorization'] = null;
+    return headers;
   }
 }));
 
