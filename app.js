@@ -43,7 +43,6 @@ app.use('/', proxy(elasticUrl, {
     // decode buffer as Base64
     const base64 = buff.toString('base64');
     proxyReqOpts.headers['authorization'] = "Basic " + base64;
-    console.log(proxyReqOpts.headers);
     return proxyReqOpts;
   },
 }));
