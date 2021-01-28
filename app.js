@@ -37,7 +37,7 @@ app.use('/', proxy(elasticUrl, {
     return true;
   },
   proxyReqOptDecorator: function(proxyReqOpts, originalReq) {
-    proxyReqOpts.headers['Authorization'] = elasticAuth;
+    proxyReqOpts.headers['Authorization'] = btoa(elasticAuth);
     return proxyReqOpts;
   },
 }));
