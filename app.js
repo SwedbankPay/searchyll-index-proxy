@@ -23,7 +23,6 @@ app.use(cookieParser());
 
 const apiKey = process.env.apiKey || "super-secret-key";
 const elasticUrl = process.env.elasticHost || 'localhost:9200'
-const elasticAuth = process.env.elasticAuth || 'none'
 
 app.use('/', proxy(elasticUrl, {
   limit: '100mb',
@@ -42,7 +41,6 @@ app.use('/', proxy(elasticUrl, {
   },
   userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
     // recieves an Object of headers, returns an Object of headers.
-    headers['Authorization'] = elasticAuth;
     return headers;
   }
 }));
