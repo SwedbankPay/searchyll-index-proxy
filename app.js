@@ -37,14 +37,9 @@ app.use('/', proxy(elasticUrl, {
     return true;
   },
   proxyReqOptDecorator: function(proxyReqOpts, originalReq) {
-    proxyReqOpts.rejectUnauthorized = false
+    proxyReqOpts.headers['Authorization'] = elasticAuth;
     return proxyReqOpts;
   },
-  userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
-    // recieves an Object of headers, returns an Object of headers.
-    headers['Authorization'] = elasticAuth;
-    return headers;
-  }
 }));
 
 app.use('/probe',function (req, res) {
