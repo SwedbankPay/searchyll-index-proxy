@@ -37,7 +37,12 @@ app.use('/', proxy(elasticUrl, {
     return true;
   },
   proxyReqOptDecorator: function(proxyReqOpts, originalReq) {
-    proxyReqOpts.headers['Authorization'] = btoa(elasticAuth);
+    // create a buffer
+    const buff = Buffer.from(elasticAuth, 'utf-8');
+
+    // decode buffer as Base64
+    const base64 = buff.toString('base64');
+    proxyReqOpts.headers['Authorization'] = btoa(base64);
     return proxyReqOpts;
   },
 }));
