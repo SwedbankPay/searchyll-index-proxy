@@ -1,10 +1,6 @@
 name: Node.js CI
 
-on:
-  push:
-    branches:
-      - develop
-      - master
+on: [push, pull_request]
 
 jobs:
   build:
@@ -33,9 +29,19 @@ jobs:
       run: .github/test/check_syntax.sh
 
     - name: 'Deploy to Azure Web App'
+      if: github.ref == 'refs/heads/develop'
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'searchyll-index-proxy-devportal-stage'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_eb36cf7c47714a8e981ad6fe659f4810 }}
+        package: .
+    
+    - name: 'Deploy to Azure Web App'
+    if: github.ref == 'refs/heads/master'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'searchyll-index-proxy-devportal-prod'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_fd5cc0e871864564b2890521b3083b1b }}
         package: .
