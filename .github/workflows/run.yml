@@ -45,7 +45,7 @@ jobs:
         package: .
     
     - name: 'Deploy to Azure Web App'
-    if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/master'
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'searchyll-index-proxy-devportal-prod'
