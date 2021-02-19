@@ -16,11 +16,37 @@ const app = require('../app')
 
 
 describe("Test the root path", () => {
-  test("It should response the GET method", () => {
+  test("GET on root returns 200", () => {
     return request(app)
     .get("/")
     .then(response => {
       expect(response.statusCode).toBe(200);
+    });
+  });
+
+  test("GET on root returns hello world", () => {
+    return request(app)
+    .get("/")
+    .then(response => {
+      expect(response.text).toBe("Hello World!");
+    });
+  });
+});
+
+describe("Test the probe path", () => {
+  test("GET on root returns 200", () => {
+    return request(app)
+    .get("/probe")
+    .then(response => {
+      expect(response.statusCode).toBe(200);
+    });
+  });
+
+  test("GET on probe returns hello world", () => {
+    return request(app)
+    .get("/probe")
+    .then(response => {
+      expect(response.text).toBe("Hello World!");
     });
   });
 });
