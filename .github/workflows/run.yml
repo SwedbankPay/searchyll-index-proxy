@@ -28,6 +28,11 @@ jobs:
     - name: Check syntax
       run: .github/test/check_syntax.sh
 
+    - name: npm build, and test
+      run: |
+        npm run build --if-present
+        npm run test --if-present
+
     - name: 'Deploy to Azure Web App'
       if: github.ref == 'refs/heads/develop'
       uses: azure/webapps-deploy@v2
