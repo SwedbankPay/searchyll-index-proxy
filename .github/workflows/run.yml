@@ -1,10 +1,6 @@
 name: Node.js CI
 
-on:
-  push:
-    branches:
-      - develop
-      - master
+on: [push, pull_request]
 
 jobs:
   build:
@@ -13,10 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
+    - name: Use Node.js 12.x
       uses: actions/setup-node@v2-beta
       with:
-        node-version: '14'
+        node-version: '12'
 
     - name: Cache Node.js modules
       uses: actions/cache@v2
@@ -32,10 +28,25 @@ jobs:
     - name: Check syntax
       run: .github/test/check_syntax.sh
 
+    - name: npm build, and test
+      run: |
+        npm run build --if-present
+        npm run test --if-present
+
     - name: 'Deploy to Azure Web App'
+      if: github.ref == 'refs/heads/develop'
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'searchyll-index-proxy-devportal-stage'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_eb36cf7c47714a8e981ad6fe659f4810 }}
+        package: .
+    
+    - name: 'Deploy to Azure Web App'
+      if: github.ref == 'refs/heads/master'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'searchyll-index-proxy-devportal-prod'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_fd5cc0e871864564b2890521b3083b1b }}
         package: .

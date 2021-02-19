@@ -10,8 +10,6 @@ var process = require('process');
 
 var app = express();
 
-let port = process.env.PORT || 3001;
-
 app.use(helmet());
 app.use(compression())
 app.use(morgan('combined'));
@@ -71,4 +69,4 @@ app.use(function (err, req, res, next) {
   res.send(err);
 });
 
-app.listen(port)
+module.exports = app;
