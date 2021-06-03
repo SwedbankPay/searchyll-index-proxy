@@ -18,7 +18,7 @@ jobs:
       uses: actions/cache@v2
       with:
         # npm cache files are stored in `~/.npm` on Linux/macOS
-        path: ~/.npm 
+        path: ~/.npm
         key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.OS }}-node
@@ -41,9 +41,9 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_eb36cf7c47714a8e981ad6fe659f4810 }}
         package: .
-    
+
     - name: 'Deploy to Azure Web App'
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main'
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'searchyll-index-proxy-devportal-prod'
