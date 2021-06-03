@@ -1,9 +1,9 @@
-name: Node.js CI
+name: test
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -23,30 +23,28 @@ jobs:
         restore-keys: |
           ${{ runner.OS }}-node
           ${{ runner.OS }}-
+
     - run: npm ci
 
     - name: Check syntax
-      run: .github/test/check_syntax.sh
+      run: find . -name "*.js" -not -path "./node_modules/*" -exec node --check {} \;
 
-    - name: npm build, and test
-      run: |
-        npm run build --if-present
-        npm run test --if-present
+    - run: npm test
 
-    - name: 'Deploy to Azure Web App'
+    - name: Deploy to Azure Web App
       if: github.ref == 'refs/heads/develop'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'searchyll-index-proxy-devportal-stage'
-        slot-name: 'production'
+        app-name: searchyll-index-proxy-devportal-stage
+        slot-name: production
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_eb36cf7c47714a8e981ad6fe659f4810 }}
         package: .
 
-    - name: 'Deploy to Azure Web App'
+    - name: Deploy to Azure Web App
       if: github.ref == 'refs/heads/main'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'searchyll-index-proxy-devportal-prod'
+        app-name: searchyll-index-proxy-devportal-prod
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_fd5cc0e871864564b2890521b3083b1b }}
         package: .
