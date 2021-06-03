@@ -5,14 +5,7 @@
 # or to provide custom queries or build logic.
 name: "CodeQL"
 
-on:
-  push:
-    branches: [develop]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [develop]
-  schedule:
-    - cron: '0 4 * * 0'
+on: [push, pull_request]
 
 jobs:
   analyze:
