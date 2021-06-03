@@ -7,9 +7,10 @@ updates:
     time: "03:00"
     timezone: Europe/Oslo
   open-pull-requests-limit: 99
-  ignore:
-  - dependency-name: nock
-    versions:
-    - 13.0.10
-    - 13.0.8
-    - 13.0.9
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/Oslo
+  open-pull-requests-limit: 99
