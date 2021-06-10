@@ -6,7 +6,7 @@ var morgan = require('morgan')
 var compression = require('compression')
 var helmet = require('helmet')
 var proxy = require('express-http-proxy');
-var process = require('process'); 
+var process = require('process');
 
 var app = express();
 
@@ -19,9 +19,9 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 
-const apiKey = process.env.apiKey || "super-secret-key";
-const elasticUrl = process.env.elasticHost || 'localhost:9200'
-const elasticAuth = process.env.elasticAuth || 'none'
+const apiKey = process.env.API_KEY || "super-secret-key";
+const elasticUrl = process.env.ELASTICSEARCH_HOSTS || 'localhost:9200'
+const elasticAuth = process.env.ELASTICSEARCH_AUTH || 'none'
 
 app.use('/', proxy(elasticUrl, {
   limit: '100mb',
