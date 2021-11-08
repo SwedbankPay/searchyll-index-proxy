@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "jest": "^27.3.1",
-    "nock": "^13.1.4",
+    "nock": "^13.2.0",
     "nodemon": "^2.0.14",
     "superagent": "^6.1.0",
     "supertest": "^6.1.6"
