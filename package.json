@@ -15,7 +15,7 @@
     "express": "^4.17.2",
     "express-async-handler": "^1.2.0",
     "express-http-proxy": "^1.6.3",
-    "helmet": "^5.0.1",
+    "helmet": "^5.1.1",
     "http-errors": "^2.0.0",
     "morgan": "~1.10.0"
   },
