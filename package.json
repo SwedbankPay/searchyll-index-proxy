@@ -24,6 +24,6 @@
     "nock": "^13.2.1",
     "nodemon": "^2.0.15",
     "superagent": "^7.0.1",
-    "supertest": "^6.1.6"
+    "supertest": "^6.3.0"
   }
 }
